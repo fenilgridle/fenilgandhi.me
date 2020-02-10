@@ -1,47 +1,38 @@
+'use strict';
 
-function loadScene() {
-  let width = window.innerWidth;
-  let height = window.innerHeight;
+class SceneManager {  
+  constructor() {
+    let width = window.innerWidth;
+    let height = window.innerHeight;
+  }
 
-  // Setup base-planet Location
-  anime({
-    targets: '.base-planet',
-    height:height * 0.5,
-    width: width * 0.6,
-    left:width * 0.2,
-    bottom:-1 * height * 0.35,
-    duration: 0
-  });
+  loadScene = () => {
+    this.width = window.innerWidth;
+    this.height = window.innerHeight;
 
-  // Setup header-text location
-  anime({
-    targets: '.header-text',
-    "min-height": height * 0.1,
-    width: width * 0.8,
-    "margin-top": height * 0.25,
-    duration: 0
-  });
+    if (this.width < 500) {
+      return;
+    }
 
-  // Setup projects location
-  anime({
-    targets: '.projects',
-    height: Math.max(height * 0.2, 200),
-    width: Math.max(height * 0.2, 200),
-    top: height * 0.15,
-    left:width * 0.1,
-    duration: 0
-  });
-
-  // Animate rotation in base-planet 
-  anime({
-    targets: '.base-planet',
-    easing: 'easeInOutQuad',
-    loop: true,
-    scale: [
-      { value: 1.02, duration: 1000},
-      { value: 0.98, duration: 1000 }
-    ]
-  });
+    // Render earth
+    const earthDiameter = Math.floor(this.height * 0.3);
+    anime({
+      targets: '.earth',
+      'width': earthDiameter,
+      'height': earthDiameter,
+      'opacity': 1
+    });
+    
+    // Render mars
+    const marsDiameter = Math.floor(this.height * 0.2);
+    anime({
+      targets: '.mars',
+      'width': marsDiameter,
+      'height': marsDiameter,
+      'opacity': 1
+    });
+  }
 }
 
-window.onload = loadScene;
+window.sceneManager = new SceneManager();
+window.onload = window.sceneManager.loadScene();
